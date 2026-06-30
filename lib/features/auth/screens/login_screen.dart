@@ -5,6 +5,7 @@ import '../providers/auth_provider.dart';
 import '../../home/screens/home_screen.dart';
 import 'register_screen.dart';
 import 'forgot_password_screen.dart';
+import '../../home/screens/technician_dashboard_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -38,11 +39,16 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!mounted) return;
 
     if (success) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
-        (route) => false,
-      );
+final isTechnician = authProvider.user?.isTechnician == true;
+Navigator.pushAndRemoveUntil(
+  context,
+  MaterialPageRoute(
+    builder: (_) => isTechnician
+        ? const TechnicianDashboardScreen()
+        : const HomeScreen(),
+  ),
+  (route) => false,
+);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

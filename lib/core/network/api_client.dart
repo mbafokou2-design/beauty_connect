@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/app_constants.dart';
+import 'package:mime/mime.dart';
+import 'package:http_parser/http_parser.dart';
 
 class ApiClient {
   static Future<String?> _getToken() async {
@@ -73,7 +75,7 @@ class ApiClient {
   }
 
   // POST with image (multipart)
-  static Future<http.Response> postWithImage(
+static Future<http.Response> postWithImage(
     String endpoint,
     Map<String, String> fields,
     String filePath,
@@ -91,8 +93,15 @@ class ApiClient {
       request.fields[key] = value;
     });
 
+    final mimeTypeData = lookupMimeType(filePath)?.split('/');
     request.files.add(
-      await http.MultipartFile.fromPath(fileField, filePath),
+      await http.MultipartFile.fromPath(
+        fileField,
+        filePath,
+        contentType: mimeTypeData != null
+            ? MediaType(mimeTypeData[0], mimeTypeData[1])
+            : MediaType('image', 'jpeg'),
+      ),
     );
 
     final streamedResponse = await request.send();

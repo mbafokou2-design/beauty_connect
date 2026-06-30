@@ -14,23 +14,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  final List<Map<String, String>> _pages = [
-    {
-      'title': 'Discover Technicians',
-      'description':
-          'Access the city\'s most exclusive beauty professionals and book your ritual in seconds.',
-    },
-    {
-      'title': 'Book Instantly',
-      'description':
-          'Find top-rated professionals for hair, nails, skin, and more in your local area.',
-    },
-    {
-      'title': 'Grow Your Business',
-      'description':
-          'Manage your business, accept bookings, and showcase your portfolio to new clients.',
-    },
-  ];
+final List<Map<String, String>> _pages = [
+  {
+    'title': 'Discover Technicians',
+    'description':
+        'Access the city\'s most exclusive beauty professionals and book your ritual in seconds.',
+    'image':
+        'https://i.pinimg.com/736x/07/ec/25/07ec25ef1845c8f1f5b3c710dafceb5d.jpg',
+  },
+  {
+    'title': 'Book Instantly',
+    'description':
+        'Find top-rated professionals for hair, nails, skin, and more in your local area.',
+    'image':
+        'https://i.pinimg.com/1200x/59/f0/6b/59f06b6ccacb3791bdd1e59d2e9c7fbd.jpg',
+  },
+  {
+    'title': 'Grow Your Business',
+    'description':
+        'Manage your business, accept bookings, and showcase your portfolio to new clients.',
+    'image':
+        'https://i.pinimg.com/1200x/e3/80/e1/e380e165ffde442eb8e01f75adfb6e45.jpg',
+  },
+];
 
   @override
   void dispose() {
@@ -168,43 +174,66 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget _buildPage(Map<String, String> page) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: AppColors.splashGradient,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          // Content at bottom
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 0, 24, 200),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  page['title']!,
-                  style: const TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.white,
-                    fontFamily: 'Georgia',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  page['description']!,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: AppColors.white.withOpacity(0.8),
-                    height: 1.6,
-                  ),
-                ),
+Widget _buildPage(Map<String, String> page) {
+  return Container(
+    decoration: const BoxDecoration(
+      gradient: AppColors.splashGradient,
+    ),
+    child: Stack(
+      children: [
+        Positioned.fill(
+          child: Image.network(
+            page['image']!,
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black.withOpacity(0.2),
+                Colors.black.withOpacity(0.7),
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 200),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    page['title']!,
+                    style: const TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.white,
+                      fontFamily: 'Georgia',
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    page['description']!,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: AppColors.white.withOpacity(0.8),
+                      height: 1.6,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
 }

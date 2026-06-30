@@ -17,6 +17,8 @@ class AuthProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
   bool get isAuthenticated => _token != null && _user != null;
+  String? _lastResetToken;
+  String? get lastResetToken => _lastResetToken;
 
   // Init — check if user is already logged in
   Future<void> init() async {
@@ -36,6 +38,10 @@ class AuthProvider extends ChangeNotifier {
 
   void _setError(String? value) {
     _error = value;
+    notifyListeners();
+  }
+  void setUserFromOutside(UserModel updatedUser) {
+    _user = updatedUser;
     notifyListeners();
   }
 
@@ -130,7 +136,7 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  // FORGOT PASSWORD
+// FORGOT PASSWORD
   Future<bool> forgotPassword(String email) async {
     _setLoading(true);
     _setError(null);
@@ -145,6 +151,7 @@ class AuthProvider extends ChangeNotifier {
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
+        _lastResetToken = data['resetToken'];
         _setLoading(false);
         return true;
       } else {
@@ -158,7 +165,6 @@ class AuthProvider extends ChangeNotifier {
       return false;
     }
   }
-
   // RESET PASSWORD
   Future<bool> resetPassword({
     required String token,

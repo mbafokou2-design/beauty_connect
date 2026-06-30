@@ -4,6 +4,7 @@ import '../../../core/constants/app_colors.dart';
 import '../providers/auth_provider.dart';
 import '../../home/screens/home_screen.dart';
 import 'login_screen.dart';
+import '../../home/screens/technician_dashboard_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   final String role;
@@ -65,11 +66,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (!mounted) return;
 
     if (success) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
-        (route) => false,
-      );
+final isTechnician = authProvider.user?.isTechnician == true;
+Navigator.pushAndRemoveUntil(
+  context,
+  MaterialPageRoute(
+    builder: (_) => isTechnician
+        ? const TechnicianDashboardScreen()
+        : const HomeScreen(),
+  ),
+  (route) => false,
+);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
