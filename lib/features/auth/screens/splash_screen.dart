@@ -5,7 +5,6 @@ import '../../../core/constants/app_constants.dart';
 import '../providers/auth_provider.dart';
 import 'onboarding_screen.dart';
 import '../../home/screens/home_screen.dart';
-import '../../home/screens/technician_dashboard_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -38,6 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     _controller.forward();
+
     _navigate();
   }
 
@@ -52,15 +52,9 @@ class _SplashScreenState extends State<SplashScreen>
     if (!mounted) return;
 
     if (authProvider.isAuthenticated) {
-      final isTechnician = authProvider.user?.isTechnician == true;
-      Navigator.pushAndRemoveUntil(
+      Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (_) => isTechnician
-              ? const TechnicianDashboardScreen()
-              : const HomeScreen(),
-        ),
-        (route) => false,
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
       );
     } else {
       Navigator.pushReplacement(
@@ -90,12 +84,14 @@ class _SplashScreenState extends State<SplashScreen>
           children: [
             const Spacer(),
 
+            // Logo + App Name
             FadeTransition(
               opacity: _fadeAnimation,
               child: ScaleTransition(
                 scale: _scaleAnimation,
                 child: Column(
                   children: [
+                    // Logo circle
                     Container(
                       width: 90,
                       height: 90,
@@ -103,16 +99,16 @@ class _SplashScreenState extends State<SplashScreen>
                         color: AppColors.white,
                         shape: BoxShape.circle,
                       ),
-                      child: ClipOval(
-                        child: Image.network(
-                          'https://i.pinimg.com/736x/9d/74/14/9d74142a0f8b81712a151d53c572dc5d.jpg',
-                          fit: BoxFit.cover,
-                        ),
+                      child: const Icon(
+                        Icons.spa,
+                        size: 45,
+                        color: AppColors.darkBordeaux,
                       ),
                     ),
 
                     const SizedBox(height: 24),
 
+                    // App name
                     const Text(
                       AppConstants.appName,
                       style: TextStyle(
@@ -126,6 +122,7 @@ class _SplashScreenState extends State<SplashScreen>
 
                     const SizedBox(height: 8),
 
+                    // Tagline
                     Text(
                       AppConstants.appTagline,
                       style: TextStyle(
@@ -142,6 +139,7 @@ class _SplashScreenState extends State<SplashScreen>
 
             const Spacer(),
 
+            // Bottom tagline
             FadeTransition(
               opacity: _fadeAnimation,
               child: Column(

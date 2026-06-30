@@ -7,6 +7,7 @@ import '../../services/providers/service_provider.dart';
 import '../../services/models/service_model.dart';
 import '../../auth/models/user_model.dart';
 import '../../search/screens/search_screen.dart';
+import '../../services/screens/book_service_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -549,7 +550,16 @@ class _ServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => BookServiceScreen(service: service),
+          ),
+        );
+      },
+      child: Container(
       margin: const EdgeInsets.fromLTRB(24, 0, 24, 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -615,7 +625,7 @@ class _ServiceCard extends StatelessWidget {
           ),
 
           // Price
-          Text(
+Text(
             '\$${service.price.toStringAsFixed(0)}',
             style: const TextStyle(
               fontSize: 18,
@@ -624,6 +634,7 @@ class _ServiceCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }

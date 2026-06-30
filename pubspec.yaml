@@ -11,7 +11,8 @@ dependencies:
     sdk: flutter
   mime: ^1.0.4
   http_parser: ^4.0.2
-  
+
+  intl: ^0.19.0
   # HTTP & API
   http: ^1.1.0
   

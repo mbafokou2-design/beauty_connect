@@ -195,24 +195,20 @@ class _RoleCard extends StatelessWidget {
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(16),
                 ),
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    AppColors.darkBordeaux.withOpacity(0.8),
-                    AppColors.pinkRose.withOpacity(0.8),
-                  ],
-                ),
               ),
-              child: const Center(
-                child: Icon(
-                  Icons.spa,
-                  size: 60,
-                  color: AppColors.white,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(16),
+                ),
+                child: Image.asset(
+                  label == 'I WANT TO BOOK'
+                      ? 'assets/images/based2.jpg'
+                      : 'assets/images/based1.jpg',
+                  fit: BoxFit.cover,
+                  width: double.infinity,
                 ),
               ),
             ),
-
             // Text content
             Padding(
               padding: const EdgeInsets.all(16),
